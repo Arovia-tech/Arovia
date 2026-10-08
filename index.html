@@ -43,7 +43,21 @@
 </head>
 <body class="font-sans text-gray-800 antialiased overflow-x-hidden relative">
 
-    <nav class="fixed top-0 w-full bg-arovia-cream/95 backdrop-blur-md z-40 border-b border-arovia-gold/20 shadow-sm transition-all h-20 flex items-center">
+    <!-- Top Announcement & Contact/Track Bar -->
+    <div class="bg-arovia-dark text-gray-300 text-xs py-2 px-4 border-b border-arovia-gold/20">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex items-center gap-4">
+                <span><i class="fa-solid fa-phone text-arovia-gold mr-1.5"></i> +91 97201 17871</span>
+                <span><i class="fa-solid fa-envelope text-arovia-gold mr-1.5"></i> contact@arovia.in</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="text-arovia-gold"><i class="fa-solid fa-location-dot mr-1"></i> Agra, UP</span>
+                <button onclick="openTrackModal()" class="text-gray-300 hover:text-arovia-gold transition-colors font-medium underline underline-offset-4">Track Order</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="sticky top-0 w-full bg-arovia-cream/95 backdrop-blur-md z-40 border-b border-arovia-gold/20 shadow-sm transition-all h-20 flex items-center">
         <div class="max-w-7xl mx-auto px-4 w-full flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <span class="font-serif text-3xl font-bold text-arovia-green tracking-[0.18em]">AROVIA</span>
@@ -101,10 +115,11 @@
             </div>
         </div>
         <div class="max-w-7xl mx-auto px-4 mt-12 pt-8 border-t border-gray-800 text-center text-xs text-gray-500 uppercase tracking-widest">
-            &copy; 2026 Arovia Premium Care. All Rights Reserved. <br><span class="text-arovia-gold mt-2 block"><i class="fa-solid fa-shield-halved mr-1"></i> Secure UPI Checkout</span>
+            &copy; 2026 Arovia Premium Care. All Rights Reserved. <br><span class="text-arovia-gold mt-2 block"><i class="fa-solid fa-shield-halved mr-1"></i> Secure UPI & COD Checkout</span>
         </div>
     </footer>
 
+    <!-- Cart Drawer -->
     <div id="cart-drawer-overlay" class="fixed inset-0 bg-black/50 z-50 hidden opacity-0 transition-opacity duration-300" onclick="toggleCart()"></div>
     <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[400px] bg-arovia-cream z-50 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
         <div class="p-6 border-b border-arovia-gold/20 flex justify-between items-center bg-arovia-green text-arovia-cream">
@@ -123,6 +138,7 @@
         </div>
     </div>
 
+    <!-- Product Details Modal -->
     <div id="product-modal-overlay" class="fixed inset-0 bg-black/60 z-50 hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4" onclick="closeProductModal(event)">
         <div id="product-modal-content" class="bg-arovia-cream rounded-sm max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl transform scale-95 transition-transform duration-300 relative" onclick="event.stopPropagation()">
             <button onclick="closeProductModal()" class="absolute top-4 right-4 z-10 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center text-gray-800 hover:text-red-500 shadow"><i class="fa-solid fa-xmark"></i></button>
@@ -130,6 +146,7 @@
         </div>
     </div>
 
+    <!-- Checkout Modal -->
     <div id="checkout-modal-overlay" class="fixed inset-0 bg-black/85 z-[60] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-2 sm:p-4 font-sans" onclick="closeCheckout(event)">
         <div class="bg-[#121212] rounded-md max-w-md w-full border border-[#2a2a2a] shadow-2xl overflow-hidden flex flex-col max-h-[95vh] transform scale-95 transition-transform duration-300 relative" onclick="event.stopPropagation()">
             <div class="px-6 py-4 border-b border-[#2a2a2a] flex justify-between items-center bg-[#0a0a0a]">
@@ -180,59 +197,73 @@
                         CONFIRM & PLACE ORDER
                     </button>
                 </div>
-                <div id="checkout-step-3" class="hidden flex-col items-center justify-center py-12 text-center">
-                    <div class="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mb-6 border-2 border-green-500">
-                        <i class="fa-solid fa-check text-4xl text-green-500"></i>
+                <div id="checkout-step-3" class="hidden flex-col items-center justify-center py-10 text-center">
+                    <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mb-4 border-2 border-green-500">
+                        <i class="fa-solid fa-check text-3xl text-green-500"></i>
                     </div>
-                    <h3 class="font-serif text-2xl text-white mb-2">Order Confirmed!</h3>
-                    <p class="text-sm text-gray-400">Thank you for choosing Arovia. Your order has been successfully saved to the live database.</p>
+                    <h3 class="font-serif text-2xl text-white mb-1">Order Confirmed!</h3>
+                    <p class="text-xs text-arovia-gold font-mono tracking-widest mb-3 uppercase" id="success-order-id">#AV-000000</p>
+                    <p class="text-sm text-gray-400">Thank you for choosing Arovia. Your order has been securely saved to the live database.</p>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Track Order Modal -->
+    <div id="track-modal-overlay" class="fixed inset-0 bg-black/85 z-[70] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4 font-sans" onclick="closeTrackModal(event)">
+        <div class="bg-[#121212] rounded-md max-w-sm w-full border border-[#2a2a2a] shadow-2xl p-6 text-gray-300 relative" onclick="event.stopPropagation()">
+            <button onclick="closeTrackModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <h3 class="font-serif text-xl text-white mb-2 tracking-wide">Track Your Order</h3>
+            <p class="text-xs text-gray-400 mb-6">Enter your Order ID (e.g. #AV-885750) or Phone Number to check status.</p>
+            <input type="text" id="track-input" placeholder="Enter Order ID or Phone" class="w-full bg-arovia-checkoutInput border border-[#333] rounded px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-arovia-gold transition mb-4 font-mono text-sm">
+            <button onclick="performTracking()" class="w-full bg-arovia-gold text-[#121212] font-bold tracking-widest py-3 rounded hover:bg-white transition text-xs">CHECK STATUS</button>
+            <div id="track-result" class="mt-4 text-xs text-center text-gray-400"></div>
         </div>
     </div>
 
     <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, query, where, or } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyD6EiuBr54PEA0IIj5g6r6UqGi...",
+            apiKey: "AIzaSyD6EIuBr54PEA0IIj5g6r6UqGiWVOe3pXA",
             authDomain: "arovia-tech.firebaseapp.com",
             projectId: "arovia-tech",
             storageBucket: "arovia-tech.firebasestorage.app",
             messagingSenderId: "717183346666",
-            appId: "1:717183346666:web:e23d0570aa50e84e6f493",
+            appId: "1:717183346666:web:e23d0570aa508e84e6f493",
             measurementId: "G-0VRGEY8B85"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         window.dbInstance = db;
+        window.firestoreQueryFns = { collection, addDoc, getDocs, query, where };
     </script>
 
     <script>
         const catalog = [
-            { id: 'p1', name: 'Cocoa Butter Kids Soap', category: 'Soaps', price: 199, image: 'image1.jpg', tag: 'KIDS RANGE', weight: '80g + 50g (2 Soaps)', desc: 'A gentle, nourishing crystal soap specially crafted for kids with the pure goodness of Shea Butter and Cocoa Butter. It gently cleanses, keeps the delicate skin soft, smooth, and moisturized, and maintains the natural moisture balance making bath time an absolute delight.', benefits: ['Gently cleanses delicate skin', 'Deeply nourishes and softens', 'Maintains natural moisture balance', 'Perfect for everyday use for kids'] },
-            { id: 'p2', name: 'Activated Charcoal Soap', category: 'Soaps', price: 149, image: 'image2.jpg', tag: 'DEEP CLEANSE', weight: '100g', desc: 'A handmade crystal soap enriched with the purifying power of Activated Charcoal and the nourishing goodness of Coconut Oil, Aloe Vera and Vitamin E. It deeply cleanses pores, removes excess oil, dirt and impurities, helps control acne and keeps the skin fresh, clear and healthy without ever making it dry.', benefits: ['Deep cleanses pores', 'Controls excess oil & acne', 'Detoxifies and removes impurities', 'Leaves skin soft, smooth and refreshed'] },
-            { id: 'p3', name: 'Lavender Sleep Routine Soap', category: 'Soaps', price: 199, image: 'image3.jpg', tag: 'KIDS RANGE', weight: '80g + 50g (2 Soaps)', desc: 'A gentle, nourishing crystal soap crafted with the calming goodness of Lavender, Shea Butter, and Goat Milk. It gently cleanses, keeps the skin soft and moisturized, and supports a relaxing bedtime routine with a soothing fragrance.', benefits: ['Calms the senses', 'Helps in relaxing bath routine', 'Nourishes and moisturizes delicate skin', 'Leaves skin soft and refreshed'] },
-            { id: 'p4', name: 'Strawberry Blush Soap', category: 'Soaps', price: 199, image: 'image4.jpg', tag: 'KIDS RANGE', weight: '80g + 50g (2 Soaps)', desc: 'A gentle, nourishing crystal soap made specifically for kids with juicy Strawberry Extract, Shea Butter, and Goat Milk. It cleanses gently, gives a natural glow, and leaves a mild fruity fragrance for a happy bath time.', benefits: ['Refreshes and revitalizes the skin', 'Nourishes and moisturizes delicate skin', 'Leaves a mild fruity fragrance', 'Leaves skin soft, smooth and refreshed'] },
-            { id: 'p5', name: 'Bridal Glow Soap', category: 'Soaps', price: 149, image: 'image5.jpg', tag: 'ARTISAN SOAP', weight: '100g', desc: 'A luxurious artisan soap formulated to nourish and enhance your natural skin tone. Packed with premium botanical extracts to give special radiant care to your skin.', benefits: ['Nourishes & adds glow', 'Improves skin tone', 'Special care for radiant skin'] },
-            { id: 'p6', name: 'Rice & Licorice Brightening Soap', category: 'Soaps', price: 149, image: 'image6.jpg', tag: 'ARTISAN SOAP', weight: '100g', desc: 'Infused with rice and licorice extracts to naturally brighten complexion, even out skin tone, and reveal a radiant natural glow.', benefits: ['Brightens skin', 'Evens skin tone', 'Gives natural glow'] },
-            { id: 'p7', name: 'Oat & Honey Soap', category: 'Soaps', price: 149, image: 'image7.jpg', tag: 'ARTISAN SOAP', weight: '100g', desc: 'Gentle cleansing soap infused with nourishing oat and pure honey. Perfect for dry and sensitive skin, providing deep soothing moisture.', benefits: ['Gently cleanses', 'Moisturizes & soothes', 'Perfect for dry & sensitive skin'] },
-            { id: 'p8', name: 'Rose Clay Soap', category: 'Soaps', price: 149, image: 'image8.jpg', tag: 'ARTISAN SOAP', weight: '100g', desc: 'Enriched with rose clay and rose petals to gently detoxify skin, exfoliate impurities, and improve overall skin texture.', benefits: ['Detoxifies skin', 'Gently exfoliates', 'Improves skin texture'] },
-            { id: 'p9', name: 'Saffron Glow Soap', category: 'Soaps', price: 149, image: 'image9.jpg', tag: 'ARTISAN SOAP', weight: '100g', desc: 'Infused with authentic saffron and turmeric to reduce tan, revive your natural glow, and brighten your complexion.', benefits: ['Reduces tan', 'Reveals natural glow', 'Brightens complexion'] },
-            { id: 'p10', name: 'Red Wine Gel Bar', category: 'Soaps', price: 99, image: 'image10.jpg', tag: 'GEL RANGE', weight: '100g', desc: 'A luxurious handmade crystal clear gel bathing soap enriched with Red Wine Extract and Essential Oil. Rich in natural antioxidants to rejuvenate skin and promote a youthful glow.', benefits: ['Rich in antioxidants', 'Rejuvenates skin', 'Makes skin soft & youthful'] },
-            { id: 'p11', name: 'Cool Mint Gel Bar', category: 'Soaps', price: 99, image: 'image11.jpg', tag: 'GEL RANGE', weight: '100g', desc: 'Cooling and refreshing gel bar formulated with mint oil and glycerin base to control excess oil and invigorate your bath experience.', benefits: ['Cooling & refreshing', 'Helps control oil', 'Invigorating bath experience'] },
-            { id: 'p12', name: 'Lemongrass Gel Bar', category: 'Soaps', price: 99, image: 'image12.jpg', tag: 'GEL RANGE', weight: '100g', desc: 'Revitalizing and fresh gel bar infused with lemongrass oil to deeply cleanse and energize your skin.', benefits: ['Revitalizing & fresh', 'Cleanses deeply', 'Energizes your skin'] },
-            { id: 'p13', name: 'Lavender Gel Bar', category: 'Soaps', price: 99, image: 'image13.jpg', tag: 'GEL RANGE', weight: '100g', desc: 'Relaxing and calming lavender gel bar designed to soothe the senses and leave skin soft and fresh.', benefits: ['Refreshing & calming', 'Gentle on skin', 'Leaves skin soft & fresh'] },
-            { id: 'p14', name: 'Ubtan Facial Pack', category: 'Skin Care', price: 149, image: 'image14.jpg', tag: 'SKIN CARE', weight: '60g', desc: 'Traditional herbal Ubtan facial pack made with natural ingredients like Beetroot, Orange Peel, Rice, Masoor Dal, Aloe Vera, and Licorice to gently cleanse, remove tan, and brighten skin.', benefits: ['Brightens skin tone', 'Removes tan', 'Gently exfoliates & gives radiant skin'] },
-            { id: 'p15', name: 'Radiant Glow Face Pack', category: 'Skin Care', price: 120, image: 'image15.jpg', tag: 'SKIN CARE', weight: '60g', desc: 'An exquisite blend of Multani Mitti, Rose petals, Sandalwood, and Orange Peel powder for a radiant, blemish-free complexion.', benefits: ['Brightens complexion', 'Detoxifies skin', 'Improves skin tone'] },
-            { id: 'p16', name: 'Herbal Root Revival Shampoo', category: 'Hair Care', price: 325, image: 'image16.jpg', tag: 'HAIR CARE', weight: '200ml', desc: 'A pearlescent shampoo enriched with Amla, Aloe Vera, Bhringraj, Rosemary, Hibiscus, Hydrolysed Rice Protein, Blue Pea Extract and D Panthenol. Cleanses the scalp and hair, leaving it soft, smooth, and naturally shiny.', benefits: ['Nourishes and strengthens hair', 'Helps maintain a healthy scalp', 'Reduces hair fall and breakage', 'Adds softness and natural shine'] },
-            { id: 'p17', name: 'Herbal Regrowth Shampoo', category: 'Hair Care', price: 299, image: 'image17.jpg', tag: 'HAIR CARE', weight: '200ml', desc: 'Natural shampoo made with pure herbal extracts of Amla, Reetha, Shikakai, Hibiscus, Bhringraj, Rosemary, Aloe Vera, and Neem to control dandruff and support natural hair regrowth.', benefits: ['Promotes hair regrowth', 'Controls hair fall', 'Reduces dandruff', 'Cleanses scalp gently'] },
-            { id: 'p18', name: 'Herbal Hair Oil', category: 'Hair Care', price: 199, image: 'image18.jpg', tag: 'HAIR CARE', weight: '100ml', desc: 'Nourishing blend of traditional Ayurvedic herbs and enriching natural oils to care for your scalp and hair, reduce hair fall, and control frizz.', benefits: ['Nourishes scalp', 'Promotes hair growth', 'Reduces hair fall', 'Makes hair strong & shiny'] },
-            { id: 'p19', name: 'Herbal Hair Mask', category: 'Hair Care', price: 149, image: 'image19.jpg', tag: 'HAIR CARE', weight: '60g', desc: 'Deep nourishment treatment formulated with pure herbal powders to strengthen hair roots and improve overall texture.', benefits: ['Deep nourishment for hair & scalp', 'Strengthens hair roots', 'Reduces hair fall', 'Improves hair texture'] },
-            { id: 'p20', name: 'Payment Test Trial', category: 'All', price: 1, image: 'image20.jpg', tag: 'TEST PRODUCT', weight: 'N/A', desc: 'Special ₹1 trial product to test the payment gateway and live order sync.', benefits: ['Verify payment gateway', 'Test UPI QR generation'] }
+            { id: 'p1', name: 'Cocoa Butter Kids Soap', category: 'Soaps', price: 199, image: 'image1.jpg', tag: 'KIDS RANGE', weight: '80g + 50g (2 Soaps)', desc: 'A gentle, nourishing crystal soap specially crafted for kids with the pure goodness of Shea Butter and Cocoa Butter. It gently cleanses, keeps the delicate skin soft, smooth, and moisturized.', benefits: ['Gently cleanses delicate skin', 'Deeply nourishes and softens', 'Maintains natural moisture balance'] },
+            { id: 'p2', name: 'Activated Charcoal Soap', category: 'Soaps', price: 149, image: 'image2.jpg', tag: 'DEEP CLEANSE', weight: '100g', desc: 'A handmade crystal soap enriched with Activated Charcoal, Coconut Oil, Aloe Vera and Vitamin E. Deeply cleanses pores, removes excess oil, and controls acne.', benefits: ['Deep cleanses pores', 'Controls excess oil & acne', 'Detoxifies and removes impurities'] },
+            { id: 'p3', name: 'Lavender Sleep Routine Soap', category: 'Soaps', price: 199, image: 'image3.jpg', tag: 'KIDS RANGE', weight: '80g + 50g (2 Soaps)', desc: 'Crafted with calming Lavender, Shea Butter, and Goat Milk for a soothing bedtime bath routine.', benefits: ['Calms the senses', 'Helps in relaxing bath routine', 'Nourishes delicate skin'] },
+            { id: 'p4', name: 'Strawberry Blush Soap', category: 'Soaps', price: 199, image: 'image4.jpg', tag: 'KIDS RANGE', weight: '80g + 50g (2 Soaps)', desc: 'Gentle crystal soap made with strawberry extract, shea butter, and goat milk for kids.', benefits: ['Gives natural glow', 'Mild fruity fragrance', 'Leaves skin soft and smooth'] },
+            { id: 'p5', name: 'Bridal Glow Soap', category: 'Soaps', price: 149, image: 'image5.jpg', tag: 'ARTISAN SOAP', weight: '100g', desc: 'Luxurious artisan soap formulated with premium botanical extracts for radiant skin care.', benefits: ['Nourishes & adds glow', 'Improves skin tone'] },
+            { id: 'p6', name: 'Rice & Licorice Brightening Soap', category: 'Soaps', price: 149, image: 'image6.jpg', tag: 'ARTISAN SOAP', weight: '100g', desc: 'Infused with rice and licorice extracts to naturally brighten complexion and even skin tone.', benefits: ['Brightens skin', 'Evens skin tone', 'Natural glow'] },
+            { id: 'p7', name: 'Oat & Honey Soap', category: 'Soaps', price: 149, image: 'image7.jpg', tag: 'ARTISAN SOAP', weight: '100g', desc: 'Gentle cleansing soap with oat and pure honey, perfect for dry and sensitive skin.', benefits: ['Gently cleanses', 'Moisturizes & soothes sensitive skin'] },
+            { id: 'p8', name: 'Rose Clay Soap', category: 'Soaps', price: 149, image: 'image8.jpg', tag: 'ARTISAN SOAP', weight: '100g', desc: 'Enriched with rose clay and rose petals to detoxify and improve skin texture.', benefits: ['Detoxifies skin', 'Gently exfoliates'] },
+            { id: 'p9', name: 'Saffron Glow Soap', category: 'Soaps', price: 149, image: 'image9.jpg', tag: 'ARTISAN SOAP', weight: '100g', desc: 'Infused with authentic saffron and turmeric to reduce tan and brighten complexion.', benefits: ['Reduces tan', 'Reveals natural glow'] },
+            { id: 'p10', name: 'Red Wine Gel Bar', category: 'Soaps', price: 99, image: 'image10.jpg', tag: 'GEL RANGE', weight: '100g', desc: 'Crystal clear gel bathing soap with red wine extract for a youthful glow.', benefits: ['Rich in antioxidants', 'Rejuvenates skin'] },
+            { id: 'p11', name: 'Cool Mint Gel Bar', category: 'Soaps', price: 99, image: 'image11.jpg', tag: 'GEL RANGE', weight: '100g', desc: 'Refreshing mint oil gel bar to control excess oil and invigorate bath experience.', benefits: ['Cooling & refreshing', 'Controls oil'] },
+            { id: 'p12', name: 'Lemongrass Gel Bar', category: 'Soaps', price: 99, image: 'image12.jpg', tag: 'GEL RANGE', weight: '100g', desc: 'Revitalizing gel bar infused with lemongrass oil to cleanse and energize.', benefits: ['Revitalizing & fresh', 'Deep cleanses'] },
+            { id: 'p13', name: 'Lavender Gel Bar', category: 'Soaps', price: 99, image: 'image13.jpg', tag: 'GEL RANGE', weight: '100g', desc: 'Calming lavender gel bar designed to soothe senses and soften skin.', benefits: ['Refreshing & calming', 'Leaves skin soft'] },
+            { id: 'p14', name: 'Ubtan Facial Pack', category: 'Skin Care', price: 149, image: 'image14.jpg', tag: 'SKIN CARE', weight: '60g', desc: 'Traditional herbal Ubtan pack with beetroot, orange peel, rice, and licorice.', benefits: ['Brightens skin tone', 'Removes tan'] },
+            { id: 'p15', name: 'Radiant Glow Face Pack', category: 'Skin Care', price: 120, image: 'image15.jpg', tag: 'SKIN CARE', weight: '60g', desc: 'Blend of Multani Mitti, rose petals, and sandalwood for a blemish-free complexion.', benefits: ['Brightens complexion', 'Detoxifies skin'] },
+            { id: 'p16', name: 'Herbal Root Revival Shampoo', category: 'Hair Care', price: 325, image: 'image16.jpg', tag: 'HAIR CARE', weight: '200ml', desc: 'Pearlescent shampoo enriched with amla, bhringraj, rosemary, and rice protein.', benefits: ['Strengthens hair', 'Reduces hair fall', 'Adds shine'] },
+            { id: 'p17', name: 'Herbal Regrowth Shampoo', category: 'Hair Care', price: 299, image: 'image17.jpg', tag: 'HAIR CARE', weight: '200ml', desc: 'Natural herbal shampoo with amla, reetha, shikakai, and neem for regrowth.', benefits: ['Promotes regrowth', 'Controls dandruff'] },
+            { id: 'p18', name: 'Herbal Hair Oil', category: 'Hair Care', price: 199, image: 'image18.jpg', tag: 'HAIR CARE', weight: '100ml', desc: 'Ayurvedic herbal oil blend to nourish scalp and control frizz.', benefits: ['Nourishes scalp', 'Reduces hair fall'] },
+            { id: 'p19', name: 'Herbal Hair Mask', category: 'Hair Care', price: 149, image: 'image19.jpg', tag: 'HAIR CARE', weight: '60g', desc: 'Deep nourishment treatment to strengthen roots and improve texture.', benefits: ['Deep nourishment', 'Strengthens roots'] },
+            { id: 'p20', name: 'Payment Test Trial', category: 'All', price: 1, image: 'image20.jpg', tag: 'TEST PRODUCT', weight: 'N/A', desc: 'Special ₹1 trial product to test payment gateway and order sync.', benefits: ['Verify gateway', 'Test sync'] }
         ];
 
         let cart = [];
@@ -240,9 +271,7 @@
 
         document.addEventListener('DOMContentLoaded', () => { renderProducts('All'); });
 
-        function filterProducts(filter) {
-            renderProducts(filter);
-        }
+        function filterProducts(filter) { renderProducts(filter); }
 
         function renderProducts(filter) {
             const gridEl = document.getElementById('product-grid');
@@ -372,7 +401,7 @@
                     </div>
                 `;
                 return;
-        }
+            }
 
             cart.forEach(item => {
                 const div = document.createElement('div');
@@ -491,8 +520,9 @@
         }
 
         async function submitOrderToFirebase(paymentRef) {
+            const generatedId = '#AV-' + Math.floor(100000 + Math.random() * 900000);
             const orderData = {
-                id: '#AV-' + Math.floor(100000 + Math.random() * 900000),
+                id: generatedId,
                 date: new Date().toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }),
                 status: selectedPaymentMode === 'cod' ? 'ORDER CONFIRMED (COD)' : 'VERIFY PENDING',
                 total: cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0),
@@ -514,6 +544,8 @@
                 console.error("Firestore Error:", err);
             }
 
+            document.getElementById('success-order-id').textContent = generatedId;
+
             document.getElementById('checkout-step-1').classList.add('hidden');
             document.getElementById('checkout-step-1').classList.remove('flex');
             document.getElementById('checkout-step-2').classList.add('hidden');
@@ -525,7 +557,50 @@
             cart = [];
             updateCartUI();
 
-            setTimeout(() => { closeCheckout(); }, 5000);
+            setTimeout(() => { closeCheckout(); }, 8000);
+        }
+
+        function openTrackModal() {
+            const modal = document.getElementById('track-modal-overlay');
+            modal.classList.remove('hidden');
+            setTimeout(() => { modal.classList.remove('opacity-0'); }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeTrackModal(e) {
+            const modal = document.getElementById('track-modal-overlay');
+            if (e && e.target !== modal) return;
+            modal.classList.add('opacity-0');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+            document.body.style.overflow = '';
+        }
+
+        async function performTracking() {
+            const val = document.getElementById('track-input').value.trim();
+            const resEl = document.getElementById('track-result');
+            if(!val) { resEl.textContent = "Please enter a valid Order ID or Phone."; return; }
+
+            resEl.textContent = "Searching database...";
+            try {
+                const { collection, getDocs, query, where } = window.firestoreQueryFns;
+                const q = query(collection(window.dbInstance, "orders"));
+                const querySnapshot = await getDocs(q);
+                let found = null;
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    if(data.id === val || data.customer.phone === val) {
+                        found = data;
+                    }
+                });
+
+                if(found) {
+                    resEl.innerHTML = `<div class="p-3 bg-[#1a1a1a] border border-[#333] rounded mt-2 text-left"><p class="text-arovia-gold font-bold mb-1">${found.id} - ${found.status}</p><p class="text-gray-400">Total: ₹${found.total}</p><p class="text-gray-400">Customer: ${found.customer.name}</p></div>`;
+                } else {
+                    resEl.textContent = "No order found matching that ID or phone number.";
+                }
+            } catch (err) {
+                resEl.textContent = "Error searching database.";
+            }
         }
     </script>
 </body>
