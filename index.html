@@ -43,29 +43,26 @@
 </head>
 <body class="font-sans text-gray-800 antialiased overflow-x-hidden relative">
 
-    <!-- Top Announcement & Contact/Track Bar -->
-    <div class="bg-arovia-dark text-gray-300 text-xs py-2 px-4 border-b border-arovia-gold/20">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
-            <div class="flex items-center gap-4">
-                <span><i class="fa-solid fa-phone text-arovia-gold mr-1.5"></i> +91 97201 17871</span>
-                <span><i class="fa-solid fa-envelope text-arovia-gold mr-1.5"></i> contact@arovia.in</span>
-            </div>
-            <div class="flex items-center gap-4">
-                <span class="text-arovia-gold"><i class="fa-solid fa-location-dot mr-1"></i> Agra, UP</span>
-                <button onclick="openTrackModal()" class="text-gray-300 hover:text-arovia-gold transition-colors font-medium underline underline-offset-4">Track Order</button>
-            </div>
-        </div>
-    </div>
-
+    <!-- Navbar with Track, Logo, Contact, and Cart aligned -->
     <nav class="sticky top-0 w-full bg-arovia-cream/95 backdrop-blur-md z-40 border-b border-arovia-gold/20 shadow-sm transition-all h-20 flex items-center">
         <div class="max-w-7xl mx-auto px-4 w-full flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <span class="font-serif text-3xl font-bold text-arovia-green tracking-[0.18em]">AROVIA</span>
+            <div class="flex items-center gap-6">
+                <button onclick="openTrackModal()" class="text-xs font-semibold tracking-[0.2em] uppercase text-arovia-green hover:text-arovia-gold transition-colors">Track</button>
+                <a href="tel:+919720117871" class="text-arovia-green hover:text-arovia-gold transition-colors text-sm hidden sm:inline-flex items-center gap-1.5"><i class="fa-solid fa-phone"></i></a>
             </div>
-            <button onclick="toggleCart()" class="relative p-2 text-arovia-green hover:text-arovia-gold transition-colors">
-                <i class="fa-solid fa-shopping-bag text-2xl"></i>
-                <span id="cart-count" class="absolute top-0 right-0 bg-arovia-gold text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-arovia-cream shadow-sm">0</span>
-            </button>
+            
+            <div class="flex flex-col items-center">
+                <span class="font-serif text-2xl md:text-3xl font-bold text-arovia-green tracking-[0.2em]">AROVIA</span>
+                <span class="text-[8px] uppercase tracking-[0.25em] text-arovia-gold font-medium">Soaps & Hair Care</span>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <a href="mailto:contact@arovia.in" class="text-arovia-green hover:text-arovia-gold transition-colors text-lg"><i class="fa-regular fa-envelope"></i></a>
+                <button onclick="toggleCart()" class="relative p-2 text-arovia-green hover:text-arovia-gold transition-colors">
+                    <i class="fa-solid fa-shopping-bag text-xl"></i>
+                    <span id="cart-count" class="absolute top-0 right-0 bg-arovia-gold text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-arovia-cream shadow-sm">0</span>
+                </button>
+            </div>
         </div>
     </nav>
 
@@ -224,7 +221,7 @@
     <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, query, where, or } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, query } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyD6EIuBr54PEA0IIj5g6r6UqGiWVOe3pXA",
@@ -239,13 +236,13 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         window.dbInstance = db;
-        window.firestoreQueryFns = { collection, addDoc, getDocs, query, where };
+        window.firestoreQueryFns = { collection, addDoc, getDocs, query };
     </script>
 
     <script>
         const catalog = [
-            { id: 'p1', name: 'Cocoa Butter Kids Soap', category: 'Soaps', price: 199, image: 'image1.jpg', tag: 'KIDS RANGE', weight: '80g + 50g (2 Soaps)', desc: 'A gentle, nourishing crystal soap specially crafted for kids with the pure goodness of Shea Butter and Cocoa Butter. It gently cleanses, keeps the delicate skin soft, smooth, and moisturized.', benefits: ['Gently cleanses delicate skin', 'Deeply nourishes and softens', 'Maintains natural moisture balance'] },
-            { id: 'p2', name: 'Activated Charcoal Soap', category: 'Soaps', price: 149, image: 'image2.jpg', tag: 'DEEP CLEANSE', weight: '100g', desc: 'A handmade crystal soap enriched with Activated Charcoal, Coconut Oil, Aloe Vera and Vitamin E. Deeply cleanses pores, removes excess oil, and controls acne.', benefits: ['Deep cleanses pores', 'Controls excess oil & acne', 'Detoxifies and removes impurities'] },
+            { id: 'p1', name: 'Cocoa Butter Kids Soap', category: 'Soaps', price: 199, image: 'image1.jpg', tag: 'KIDS RANGE', weight: '80g + 50g (2 Soaps)', desc: 'A gentle, nourishing crystal soap specially crafted for kids with the pure goodness of Shea Butter and Cocoa Butter.', benefits: ['Gently cleanses delicate skin', 'Deeply nourishes and softens', 'Maintains natural moisture balance'] },
+            { id: 'p2', name: 'Activated Charcoal Soap', category: 'Soaps', price: 149, image: 'image2.jpg', tag: 'DEEP CLEANSE', weight: '100g', desc: 'A handmade crystal soap enriched with Activated Charcoal, Coconut Oil, Aloe Vera and Vitamin E.', benefits: ['Deep cleanses pores', 'Controls excess oil & acne', 'Detoxifies and removes impurities'] },
             { id: 'p3', name: 'Lavender Sleep Routine Soap', category: 'Soaps', price: 199, image: 'image3.jpg', tag: 'KIDS RANGE', weight: '80g + 50g (2 Soaps)', desc: 'Crafted with calming Lavender, Shea Butter, and Goat Milk for a soothing bedtime bath routine.', benefits: ['Calms the senses', 'Helps in relaxing bath routine', 'Nourishes delicate skin'] },
             { id: 'p4', name: 'Strawberry Blush Soap', category: 'Soaps', price: 199, image: 'image4.jpg', tag: 'KIDS RANGE', weight: '80g + 50g (2 Soaps)', desc: 'Gentle crystal soap made with strawberry extract, shea butter, and goat milk for kids.', benefits: ['Gives natural glow', 'Mild fruity fragrance', 'Leaves skin soft and smooth'] },
             { id: 'p5', name: 'Bridal Glow Soap', category: 'Soaps', price: 149, image: 'image5.jpg', tag: 'ARTISAN SOAP', weight: '100g', desc: 'Luxurious artisan soap formulated with premium botanical extracts for radiant skin care.', benefits: ['Nourishes & adds glow', 'Improves skin tone'] },
@@ -582,7 +579,7 @@
 
             resEl.textContent = "Searching database...";
             try {
-                const { collection, getDocs, query, where } = window.firestoreQueryFns;
+                const { collection, getDocs, query } = window.firestoreQueryFns;
                 const q = query(collection(window.dbInstance, "orders"));
                 const querySnapshot = await getDocs(q);
                 let found = null;
