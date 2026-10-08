@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arovia Soaps & Hair Care | Premium Natural Care</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        arovia: {
+                            cream: '#FDFBF7',
+                            green: '#1A3626',
+                            gold: '#D4AF37',
+                            lightGold: '#F3E5AB',
+                            dark: '#121212',
+                            checkoutBg: '#1A1A1A',
+                            checkoutInput: '#262626'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #FDFBF7; }
+        /* Smooth scrolling and transitions */
+        .transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 300ms; }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #FDFBF7; }
+        ::-webkit-scrollbar-thumb { background: #1A3626; border-radius: 4px; }
+        
+        /* Hide scrollbar for tabs */
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="font-sans text-gray-800 antialiased overflow-x-hidden relative">
+
+    <!-- NAVIGATION -->
+    <nav class="fixed top-0 w-full bg-arovia-cream/90 backdrop-blur-md z-40 border-b border-arovia-gold/20 shadow-sm transition-all h-20 flex items-center">
+        <div class="max-w-7xl mx-auto px-4 w-full flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="18635.jpg" alt="Arovia Logo" class="w-12 h-12 rounded-full border border-arovia-gold shadow-sm object-cover">
+                <div class="flex flex-col">
+                    <h1 class="font-serif text-2xl font-bold text-arovia-green leading-none tracking-wide">AROVIA</h1>
+                    <span class="text-[10px] uppercase tracking-widest text-arovia-gold font-medium">Soaps & Hair Care</span>
+                </div>
+            </div>
+            <button onclick="toggleCart()" class="relative p-2 text-arovia-green hover:text-arovia-gold transition-colors">
+                <i class="fa-solid fa-shopping-bag text-2xl"></i>
+                <span id="cart-count" class="absolute top-0 right-0 bg-arovia-gold text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-arovia-cream shadow-sm">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="pt-28 pb-16 px-4 bg-arovia-green text-arovia-cream text-center">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="font-serif text-4xl md:text-5xl font-bold mb-6 text-arovia-lightGold">Nature's Touch, Beautifully Crafted.</h2>
+            <p class="text-lg md:text-xl font-light leading-relaxed text-gray-300 opacity-90">
+                Experience the pinnacle of natural luxury. At Arovia, we do not compromise on purity. Our artisanal creations are meticulously handcrafted using premium, ethically sourced ingredients. Command respect for your skin and hair with our uncompromising, chemical-free formulations designed for tangible, radiant results.
+            </p>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-7xl mx-auto px-4 py-12 min-h-screen">
+        
+        <!-- CATEGORY TABS -->
+        <div class="flex overflow-x-auto hide-scroll gap-4 mb-10 pb-2 justify-start md:justify-center border-b border-gray-200">
+            <button onclick="filterProducts('All')" class="tab-btn px-6 py-3 font-serif font-semibold text-lg whitespace-nowrap border-b-2 border-arovia-green text-arovia-green" data-category="All">All Collection</button>
+            <button onclick="filterProducts('Soaps')" class="tab-btn px-6 py-3 font-serif font-semibold text-lg whitespace-nowrap border-b-2 border-transparent text-gray-400 hover:text-arovia-green transition-colors" data-category="Soaps">Artisan Soaps</button>
+            <button onclick="filterProducts('Hair Care')" class="tab-btn px-6 py-3 font-serif font-semibold text-lg whitespace-nowrap border-b-2 border-transparent text-gray-400 hover:text-arovia-green transition-colors" data-category="Hair Care">Hair Care</button>
+            <button onclick="filterProducts('Skin Care')" class="tab-btn px-6 py-3 font-serif font-semibold text-lg whitespace-nowrap border-b-2 border-transparent text-gray-400 hover:text-arovia-green transition-colors" data-category="Skin Care">Skin Care</button>
+        </div>
+
+        <!-- PRODUCT GRID -->
+        <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Products injected by JS -->
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-arovia-dark text-gray-300 py-16 border-t border-arovia-gold/20">
+        <div class="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div>
+                <div class="flex items-center gap-3 mb-6">
+                    <img src="18635.jpg" alt="Arovia" class="w-10 h-10 rounded-full object-cover grayscale opacity-80">
+                    <h3 class="font-serif text-2xl font-bold text-white tracking-widest">AROVIA</h3>
+                </div>
+                <p class="text-sm leading-relaxed text-gray-400">Handcrafted care for naturally beautiful skin and stronger, healthier hair. Free from harsh chemicals, sulphates, and parabens.</p>
+            </div>
+            <div>
+                <h4 class="font-serif text-arovia-gold text-lg mb-6 uppercase tracking-wider">Legal & Support</h4>
+                <ul class="space-y-3 text-sm">
+                    <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Return & Warranty Policy</a></li>
+                    <li><a href="#" class="hover:text-white transition-colors">Secure Shipping Info</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-serif text-arovia-gold text-lg mb-6 uppercase tracking-wider">Connect</h4>
+                <ul class="space-y-4 text-sm">
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-location-dot mt-1 text-arovia-gold"></i> <span>Agra, Uttar Pradesh, India</span></li>
+                    <li class="flex items-center gap-3"><i class="fa-solid fa-phone text-arovia-gold"></i> <span>+91 97201 17871</span></li>
+                    <li class="flex items-center gap-3"><i class="fa-solid fa-envelope text-arovia-gold"></i> <span>contact@arovia.in</span></li>
+                    <li class="flex items-center gap-3 pt-2"><i class="fa-brands fa-instagram text-xl text-arovia-gold"></i> <span class="font-medium text-white">@aroviabysaloni</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 mt-12 pt-8 border-t border-gray-800 text-center text-xs text-gray-500 uppercase tracking-widest">
+            &copy; 2026 Arovia Premium Care. All Rights Reserved. <br><span class="text-arovia-gold mt-2 block"><i class="fa-solid fa-shield-halved mr-1"></i> Secure UPI Checkout</span>
+        </div>
+    </footer>
+
+    <!-- CART DRAWER -->
+    <div id="cart-drawer-overlay" class="fixed inset-0 bg-black/50 z-50 hidden opacity-0 transition-opacity duration-300" onclick="toggleCart()"></div>
+    <div id="cart-drawer" class="fixed top-0 right-0 h-full w-full sm:w-[400px] bg-arovia-cream z-50 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+        <!-- Cart Header -->
+        <div class="p-6 border-b border-arovia-gold/20 flex justify-between items-center bg-arovia-green text-arovia-cream">
+            <h2 class="font-serif text-xl font-bold tracking-widest flex items-center gap-2"><i class="fa-solid fa-bag-shopping text-arovia-gold"></i> YOUR REQUISITION</h2>
+            <button onclick="toggleCart()" class="text-arovia-cream hover:text-arovia-gold transition"><i class="fa-solid fa-xmark text-2xl"></i></button>
+        </div>
+        
+        <!-- Cart Items -->
+        <div id="cart-items-container" class="flex-1 overflow-y-auto p-6 space-y-6">
+            <!-- Items injected by JS -->
+        </div>
+
+        <!-- Cart Footer -->
+        <div class="p-6 bg-white border-t border-gray-200 shadow-[0_-10px_30px_rgba(0,0,0,0.05)]">
+            <div class="flex justify-between items-end mb-6">
+                <span class="text-sm font-bold tracking-widest uppercase text-gray-500">Final Total</span>
+                <span id="cart-total" class="font-serif text-3xl font-bold text-arovia-gold">₹0</span>
+            </div>
+            <button onclick="openCheckout()" class="w-full py-4 bg-arovia-green text-arovia-cream font-bold tracking-widest hover:bg-arovia-gold hover:text-arovia-green transition-colors flex items-center justify-center gap-2 shadow-lg">
+                PROCEED TO SECURE CHECKOUT <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- PRODUCT DETAILS MODAL -->
+    <div id="product-modal-overlay" class="fixed inset-0 bg-black/60 z-50 hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-4" onclick="closeProductModal(event)">
+        <div id="product-modal-content" class="bg-arovia-cream rounded-sm max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl transform scale-95 transition-transform duration-300 relative" onclick="event.stopPropagation()">
+            <button onclick="closeProductModal()" class="absolute top-4 right-4 z-10 w-8 h-8 bg-white/80 rounded-full flex items-center justify-center text-gray-800 hover:text-red-500 shadow"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div id="modal-body" class="flex flex-col md:flex-row">
+                <!-- Injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- SECURE DARK CHECKOUT MODAL -->
+    <div id="checkout-modal-overlay" class="fixed inset-0 bg-black/85 z-[60] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-2 sm:p-4 font-sans" onclick="closeCheckout(event)">
+        <div class="bg-[#121212] rounded-md max-w-md w-full border border-[#2a2a2a] shadow-2xl overflow-hidden flex flex-col max-h-[95vh] transform scale-95 transition-transform duration-300 relative" onclick="event.stopPropagation()">
+            
+            <!-- Header -->
+            <div class="px-6 py-4 border-b border-[#2a2a2a] flex justify-between items-center bg-[#0a0a0a]">
+                <div class="flex items-center gap-2 text-arovia-gold text-sm font-semibold tracking-widest">
+                    <i class="fa-solid fa-lock"></i> SECURE CHECKOUT
+                </div>
+                <button onclick="closeCheckout()" class="text-gray-400 hover:text-white transition"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+
+            <!-- Scrollable Body -->
+            <div class="flex-1 overflow-y-auto p-6 text-gray-300">
+                <!-- Amount Due -->
+                <div class="flex justify-between items-center mb-8 border-b border-[#2a2a2a] pb-4">
+                    <span class="text-xs uppercase tracking-widest text-gray-500 font-semibold">Amount Due:</span>
+                    <span id="checkout-total-display" class="font-serif text-3xl font-bold text-arovia-gold">₹0</span>
+                </div>
+
+                <!-- STEP 1: Details Form -->
+                <div id="checkout-step-1" class="block space-y-5">
+                    <div class="space-y-3">
+                        <input type="text" id="cust-name" placeholder="Your Full Name" class="w-full bg-arovia-checkoutInput border border-[#333] rounded px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-arovia-gold transition" required>
+                        <input type="email" id="cust-email" placeholder="Email Address" class="w-full bg-arovia-checkoutInput border border-[#333] rounded px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-arovia-gold transition" required>
+                        <input type="tel" id="cust-phone" placeholder="Phone Number" class="w-full bg-arovia-checkoutInput border border-[#333] rounded px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-arovia-gold transition" required>
+                        <textarea id="cust-address" placeholder="Complete Delivery Address (with PIN Code)" rows="3" class="w-full bg-arovia-checkoutInput border border-[#333] rounded px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-arovia-gold transition resize-none" required></textarea>
+                    </div>
+                    
+                    <div class="pt-4">
+                        <span class="text-xs uppercase tracking-widest text-gray-500 font-semibold mb-3 block">Select Payment Method</span>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button class="border border-arovia-gold bg-[#1e1e1e] text-arovia-gold px-2 py-3 rounded text-xs font-bold tracking-wide flex items-center justify-center gap-2"><i class="fa-solid fa-bolt"></i> PAY VIA UPI APP</button>
+                            <button class="border border-[#333] bg-transparent text-gray-500 px-2 py-3 rounded text-xs font-semibold tracking-wide flex items-center justify-center gap-2 opacity-50 cursor-not-allowed"><i class="fa-solid fa-truck"></i> CASH ON DELIVERY</button>
+                        </div>
+                    </div>
+
+                    <button onclick="goToStep2()" class="w-full mt-6 bg-arovia-gold text-[#121212] font-bold tracking-widest py-4 rounded hover:bg-white transition flex justify-center items-center gap-2 shadow-[0_0_15px_rgba(212,175,55,0.3)]">
+                        PROCEED WITH UPI <i class="fa-solid fa-chevron-right text-sm"></i>
+                    </button>
+                </div>
+
+                <!-- STEP 2: UPI QR Payment -->
+                <div id="checkout-step-2" class="hidden flex-col items-center">
+                    <div class="bg-white p-2 rounded-lg mb-4">
+                        <!-- Dynamic QR Code rendered here -->
+                        <img id="qr-code-img" src="" alt="UPI QR Code" class="w-48 h-48 object-contain">
+                    </div>
+                    
+                    <div class="text-center mb-6 w-full">
+                        <span class="text-[10px] uppercase tracking-widest text-gray-500 block mb-1">Scan or Pay to ID:</span>
+                        <div class="border border-[#333] bg-[#1a1a1a] rounded px-4 py-2 text-arovia-gold font-mono tracking-wide text-sm mx-auto inline-block select-all">
+                            icancoaching.saloni@ptyes
+                        </div>
+                    </div>
+
+                    <a href="#" id="open-upi-btn" class="w-full bg-[#8A2BE2] hover:bg-[#7e24d0] text-white font-bold py-3 rounded flex items-center justify-center gap-2 mb-8 transition shadow-lg">
+                        <i class="fa-solid fa-mobile-screen"></i> OPEN UPI APP
+                    </a>
+
+                    <div class="w-full text-xs text-gray-400 space-y-3 mb-6 bg-[#1a1a1a] p-4 border border-[#2a2a2a] rounded">
+                        <p><strong class="text-arovia-gold">STEP 1:</strong> Scan the QR code or open your UPI app.</p>
+                        <p><strong class="text-arovia-gold">STEP 2:</strong> Transfer the exact amount of <strong id="step2-amount" class="text-white"></strong>.</p>
+                        <p><strong class="text-arovia-gold">STEP 3:</strong> After successful payment, copy the 12-digit UTR/Reference No. and paste it below.</p>
+                    </div>
+
+                    <input type="text" id="utr-input" placeholder="Enter 12-Digit UTR Number" class="w-full bg-transparent border-b-2 border-[#444] px-2 py-3 text-white text-center text-lg placeholder-gray-600 focus:outline-none focus:border-arovia-gold transition font-mono mb-6" maxlength="12">
+
+                    <button onclick="placeOrder()" class="w-full bg-arovia-gold text-[#121212] font-bold tracking-widest py-4 rounded hover:bg-white transition shadow-[0_0_15px_rgba(212,175,55,0.3)]">
+                        CONFIRM & PLACE ORDER
+                    </button>
+                </div>
+                
+                <!-- STEP 3: Success -->
+                <div id="checkout-step-3" class="hidden flex-col items-center justify-center py-12 text-center">
+                    <div class="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mb-6 border-2 border-green-500">
+                        <i class="fa-solid fa-check text-4xl text-green-500"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl text-white mb-2">Order Confirmed!</h3>
+                    <p class="text-sm text-gray-400">Thank you for choosing Arovia. Your payment is being verified, and your premium handcrafted products will be on their way soon.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- DATA ---
+        const catalog = [
+            {
+                id: 'p1',
+                name: 'Cocoa Butter Kids Soap',
+                category: 'Soaps',
+                price: 199,
+                image: 'image1.jpg',
+                tag: 'KIDS RANGE',
+                weight: '80g + 50g (2 Soaps)',
+                desc: 'A gentle, nourishing crystal soap specially crafted for kids with the goodness of Cocoa Butter. It gently cleanses, keeps the skin soft and moisturized, and leaves a smooth, healthy and happy glow. We believe your little ones deserve nothing but the purest, chemical-free touch of nature.',
+                benefits: ['Gently cleanses delicate skin', 'Deeply nourishes and softens', 'Maintains natural moisture balance']
+            },
+            {
+                id: 'p2',
+                name: 'Activated Charcoal Soap',
+                category: 'Soaps',
+                price: 149,
+                image: 'image2.jpg',
+                tag: 'DEEP CLEANSE',
+                weight: '100g',
+                desc: 'A handmade crystal soap enriched with the purifying power of Activated Charcoal and the nourishing goodness of Coconut Oil, Aloe Vera and Vitamin E. It deeply cleanses the skin, removes excess oil, dirt and impurities, helps control acne and keeps the skin fresh, clear and healthy without making it dry. Masterfully formulated for a commanding, flawless complexion.',
+                benefits: ['Deep cleanses pores', 'Controls excess oil & acne', 'Detoxifies and removes impurities']
+            },
+            {
+                id: 'p3',
+                name: 'Lavender Sleep Routine Soap',
+                category: 'Soaps',
+                price: 199,
+                image: 'image3.jpg',
+                tag: 'KIDS RANGE',
+                weight: '80g + 50g (2 Soaps)',
+                desc: 'A gentle, nourishing crystal soap specially crafted for kids with the calming goodness of Lavender. It gently cleanses, keeps the skin soft and moisturized, and helps create a relaxing bath time, supporting a peaceful sleep routine. Handcrafted with premium Shea Butter and Goat Milk to ensure absolute safety and purity.',
+                benefits: ['Calms the senses', 'Helps in relaxing bath routine', 'Leaves skin soft and refreshed']
+            },
+            {
+                id: 'p4',
+                name: 'Red Wine Gel Bar',
+                category: 'Soaps',
+                price: 99,
+                image: 'image4.jpg',
+                tag: 'GEL RANGE',
+                weight: '100g',
+                desc: 'A luxurious handmade crystal clear gel bathing soap enriched with Red Wine Extract and Essential Oil. It gently cleanses, nourishes and revitalizes the skin, leaving it soft, smooth and radiant. Rich in natural antioxidants, Red Wine helps improve skin texture and promotes a youthful glow. Refresh your bathing experience everyday with absolute luxury.',
+                benefits: ['Rich in antioxidants', 'Rejuvenates and revitalizes skin', 'Makes skin soft & youthful']
+            },
+            {
+                id: 'p5',
+                name: 'Ubtan Facial Pack',
+                category: 'Skin Care',
+                price: 149,
+                image: 'image5.jpg',
+                tag: 'TAN REMOVAL',
+                weight: '60g',
+                desc: 'A traditional herbal Ubtan facial pack made with natural ingredients like Beetroot, Orange Peel, Rice, Masoor Dal, Aloe Vera, and Licorice. It gently cleanses, removes tan, brightens skin, and brings out a natural, healthy glow. 100% natural, chemical-free, and preservative-free for those who demand authentic Ayurvedic care.',
+                benefits: ['Brightens skin tone', 'Gently exfoliates & gives radiant skin', 'Reduces dark spots & evens tone']
+            },
+            {
+                id: 'p6',
+                name: 'Herbal Regrowth Shampoo',
+                category: 'Hair Care',
+                price: 299,
+                image: 'image6.jpg',
+                tag: 'HAIR FALL CONTROL',
+                weight: '200ml',
+                desc: 'Arovia Herbal Hair Regrowth Shampoo is a gentle, natural shampoo made with pure herbal extracts of Amla, Reetha, Shikakai, Hibiscus, Bhringraj, Rosemary, Aloe Vera, Neem, Flaxseeds and Methi Dana. It gently cleanses the scalp, helps reduce hair fall, controls dandruff and supports natural hair regrowth, leaving your hair soft, strong and healthy. Prepared on order to guarantee unmatched freshness and potency.',
+                benefits: ['Strengthens hair from roots', 'Controls hair fall & dandruff', 'Adds natural shine and softness']
+            },
+            {
+                id: 'p7',
+                name: 'Payment Test Trial',
+                category: 'All',
+                price: 1,
+                image: 'image7.jpg',
+                tag: 'TEST PRODUCT',
+                weight: 'N/A',
+                desc: 'This is a special ₹1 trial product designed exclusively to test our secure UPI checkout system. Add this to your cart to verify the seamless, dark-themed payment gateway experience before making a larger commitment.',
+                benefits: ['Verify payment gateway', 'Test UPI QR generation']
+            }
+        ];
+
+        let cart = [];
+        let currentFilter = 'All';
+
+        // --- DOM ELEMENTS ---
+        const gridEl = document.getElementById('product-grid');
+        const cartCountEl = document.getElementById('cart-count');
+        const cartItemsEl = document.getElementById('cart-items-container');
+        const cartTotalEl = document.getElementById('cart-total');
+        const overlayCart = document.getElementById('cart-drawer-overlay');
+        const drawerCart = document.getElementById('cart-drawer');
+        
+        const modalOverlay = document.getElementById('product-modal-overlay');
+        const modalContent = document.getElementById('product-modal-content');
+        const modalBody = document.getElementById('modal-body');
+
+        const checkoutOverlay = document.getElementById('checkout-modal-overlay');
+        const checkoutStep1 = document.getElementById('checkout-step-1');
+        const checkoutStep2 = document.getElementById('checkout-step-2');
+        const checkoutStep3 = document.getElementById('checkout-step-3');
+        const checkoutTotalDisplay = document.getElementById('checkout-total-display');
+        const step2AmountDisplay = document.getElementById('step2-amount');
+        const qrImg = document.getElementById('qr-code-img');
+        const openUpiBtn = document.getElementById('open-upi-btn');
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts('All');
+        });
+
+        // --- RENDER PRODUCTS ---
+        function renderProducts(filter) {
+            currentFilter = filter;
+            gridEl.innerHTML = '';
+            
+            // Update tab styles
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if(btn.dataset.category === filter) {
+                    btn.classList.add('border-arovia-green', 'text-arovia-green');
+                    btn.classList.remove('border-transparent', 'text-gray-400');
+                } else {
+                    btn.classList.remove('border-arovia-green', 'text-arovia-green');
+                    btn.classList.add('border-transparent', 'text-gray-400');
+                }
+            });
+
+            const filtered = filter === 'All' ? catalog : catalog.filter(p => p.category === filter);
+
+            filtered.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'group bg-white border border-gray-100 hover:shadow-xl transition-all duration-300 flex flex-col cursor-pointer overflow-hidden rounded-sm';
+                card.onclick = () => openProductModal(product.id);
+                
+                card.innerHTML = `
+                    <div class="h-64 bg-gray-50 p-6 flex items-center justify-center relative overflow-hidden">
+                        <span class="absolute top-4 left-4 bg-arovia-green text-white text-[10px] font-bold px-2 py-1 tracking-widest uppercase z-10">${product.tag}</span>
+                        <!-- Simulating image with styled text block since real images are local placeholders -->
+                        <div class="w-full h-full bg-[#f4f1eb] flex items-center justify-center border border-dashed border-gray-300 text-gray-400 text-sm tracking-widest uppercase transition-transform duration-500 group-hover:scale-105">
+                            ${product.image}
+                        </div>
+                    </div>
+                    <div class="p-6 flex flex-col flex-1">
+                        <div class="text-xs tracking-widest text-arovia-gold mb-2 uppercase">${product.category}</div>
+                        <h3 class="font-serif text-xl font-bold text-gray-900 mb-4 leading-tight">${product.name}</h3>
+                        <div class="mt-auto flex justify-between items-center">
+                            <span class="text-xl font-semibold text-arovia-green">₹${product.price}</span>
+                            <button onclick="event.stopPropagation(); addToCart('${product.id}')" class="w-10 h-10 border border-arovia-green text-arovia-green rounded-full flex items-center justify-center hover:bg-arovia-green hover:text-white transition-colors">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                gridEl.appendChild(card);
+            });
+        }
+
+        function toggleCart() {
+            const isHidden = overlayCart.classList.contains('hidden');
+            if (isHidden) {
+                overlayCart.classList.remove('hidden');
+                setTimeout(() => {
+                    overlayCart.classList.remove('opacity-0');
+                    drawerCart.classList.remove('translate-x-full');
+                }, 10);
+                document.body.style.overflow = 'hidden';
+            } else {
+                overlayCart.classList.add('opacity-0');
+                drawerCart.classList.add('translate-x-full');
+                setTimeout(() => {
+                    overlayCart.classList.add('hidden');
+                }, 300);
+                document.body.style.overflow = '';
+            }
+        }
+
+        // --- CHECKOUT LOGIC ---
+        function openCheckout() {
+            if (cart.length === 0) {
+                alert("Please add items to your cart first.");
+                return;
+            }
+            toggleCart(); // close drawer
+            
+            // Reset to step 1
+            checkoutStep1.classList.remove('hidden');
+            checkoutStep2.classList.add('hidden');
+            checkoutStep2.classList.remove('flex');
+            checkoutStep3.classList.add('hidden');
+            checkoutStep3.classList.remove('flex');
+            
+            checkoutOverlay.classList.remove('hidden');
+            setTimeout(() => {
+                checkoutOverlay.classList.remove('opacity-0');
+                checkoutOverlay.firstElementChild.classList.remove('scale-95');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCheckout(e) {
+            if (e && e.target !== checkoutOverlay) return;
+            checkoutOverlay.classList.add('opacity-0');
+            checkoutOverlay.firstElementChild.classList.add('scale-95');
+            setTimeout(() => {
+                checkoutOverlay.classList.add('hidden');
+            }, 300);
+            document.body.style.overflow = '';
+        }
+
+        function goToStep2() {
+            // Basic validation
+            const name = document.getElementById('cust-name').value;
+            const phone = document.getElementById('cust-phone').value;
+            if(!name || !phone) {
+                alert("Please fill in your Name and Phone Number.");
+                return;
+            }
+
+            const totalPrice = cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
+            
+            //[span_0](start_span)[span_0](end_span) Use the verified UPI ID from the image text
+            const upiId = "icancoaching.saloni@ptyes"; 
+            const upiName = "Saloni Hasija";
+            const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(upiName)}&am=${totalPrice}&cu=INR`;
+            
+            // Generate QR via reliable public API
+            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl)}&margin=10`;
+            
+            // Set link for mobile
+            openUpiBtn.href = upiUrl;
+
+            // Switch views
+            checkoutStep1.classList.add('hidden');
+            checkoutStep2.classList.remove('hidden');
+            checkoutStep2.classList.add('flex');
+        }
+
+        function placeOrder() {
+            const utr = document.getElementById('utr-input').value;
+            if (utr.length < 12) {
+                alert("Please enter a valid 12-digit UTR/Reference number from your payment app.");
+                return;
+            }
+
+            // Switch to success view
+            checkoutStep2.classList.add('hidden');
+            checkoutStep2.classList.remove('flex');
+            
+            checkoutStep3.classList.remove('hidden');
+            checkoutStep3.classList.add('flex');
+
+            // Clear cart
+            cart = [];
+            updateCartUI();
+
+            // Auto close after 5 seconds
+            setTimeout(() => {
+                closeCheckout();
+            }, 5000);
+        }
+
+    </script>
+</body>
+</html>
