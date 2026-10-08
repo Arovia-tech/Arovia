@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arovia HQ | Admin Dashboard</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        admin: {
+                            bg: '#050505',
+                            card: '#111111',
+                            gold: '#C5A059',
+                            goldHover: '#dcb871',
+                            border: '#222222',
+                            input: '#151515',
+                            purple: '#2d1445',
+                            purpleText: '#a476db',
+                            red: '#cc3333'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Cinzel', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #050505; color: #e5e5e5; }
+        /* Custom Scrollbar for dropdowns and body */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #C5A059; }
+        
+        select { appearance: none; }
+        .select-arrow { pointer-events: none; }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- AUTHENTICATION VIEW -->
+    <div id="auth-view" class="flex-1 flex items-center justify-center p-4">
+        <div class="bg-admin-card border border-admin-border rounded-md p-8 w-full max-w-sm shadow-2xl flex flex-col items-center">
+            <i class="fa-solid fa-lock text-admin-gold text-3xl mb-4 opacity-80"></i>
+            <h2 class="font-serif text-xl tracking-[0.2em] text-white mb-8 uppercase text-center">Restricted Access</h2>
+            
+            <form id="login-form" class="w-full space-y-4" onsubmit="handleLogin(event)">
+                <input type="email" id="admin-email" placeholder="Enter Admin Email" required
+                    class="w-full bg-admin-input border border-[#333] rounded px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-admin-gold transition">
+                
+                <input type="password" id="admin-code" placeholder="Enter Access Code" required
+                    class="w-full bg-admin-input border border-[#333] rounded px-4 py-3 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-admin-gold transition">
+                
+                <button type="submit" 
+                    class="w-full border border-admin-gold text-admin-gold font-serif tracking-widest text-sm py-3 mt-4 hover:bg-admin-gold hover:text-black transition-colors duration-300">
+                    AUTHENTICATE
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- DASHBOARD VIEW (Hidden by default) -->
+    <div id="dashboard-view" class="hidden flex-1 flex-col h-screen overflow-hidden">
+        <!-- TOP NAVIGATION -->
+        <nav class="border-b border-admin-border bg-admin-card px-4 py-4 flex justify-between items-center sticky top-0 z-50">
+            <h1 class="font-serif text-2xl font-bold text-admin-gold tracking-[0.15em]">AROVIA HQ</h1>
+            <button onclick="logout()" class="border border-[#333] text-gray-400 hover:text-white hover:border-white px-3 py-1.5 text-xs tracking-widest flex items-center gap-2 transition rounded-sm">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> EXIT
+            </button>
+        </nav>
+
+        <!-- MAIN DASHBOARD CONTENT -->
+        <main class="flex-1 overflow-y-auto p-4 md:p-6 w-full max-w-3xl mx-auto">
+            
+            <!-- Dashboard Header -->
+            <div class="flex justify-between items-end mb-8 border-b border-admin-border pb-4">
+                <div>
+                    <h2 class="font-serif text-3xl text-white tracking-[0.1em] mb-1">LIVE ORDERS</h2>
+                    <p class="text-[10px] text-gray-500 tracking-[0.2em] uppercase">Real-Time Database Sync Active</p>
+                </div>
+                <button onclick="renderOrders()" class="text-admin-gold hover:text-white transition group" title="Sync Database">
+                    <i class="fa-solid fa-arrows-rotate text-xl group-hover:rotate-180 transition-transform duration-500"></i>
+                </button>
+            </div>
+
+            <!-- Orders Container -->
+            <div id="orders-container" class="space-y-6">
+                <!-- Orders injected via JavaScript -->
+            </div>
+        </main>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // MOCK DATABASE
+        let orders = [
+            {
+                id: '#AV-885750',
+                date: '08 Oct 2026, 03:17 pm',
+                status: 'VERIFY PENDING',
+                total: 299,
+                customer: {
+                    name: 'undefined',
+                    email: 'customer1@gmail.com',
+                    phone: '9876543210',
+                    address: '90 MIG, Agra, UP'
+                },
+                upiRef: '393793749497',
+                items: [
+                    '1x Herbal Regrowth Shampoo (200ml) ₹299'
+                ]
+            },
+            {
+                id: '#AV-324328',
+                date: '07 Oct 2026, 02:46 pm',
+                status: 'PAYMENT VERIFIED',
+                total: 199,
+                customer: {
+                    name: 'undefined',
+                    email: 'not-available@gmail.com',
+                    phone: '9878731038',
+                    address: '27-d Parkash Vihar, Tower Enclave Phase-2, Jalandhar, Punjab, Pin -144001'
+                },
+                upiRef: 'N/A',
+                items: [
+                    '1x Cocoa Butter Kids Soap 2-Pack ₹199'
+                ]
+            }
+        ];
+
+        const STATUS_COLORS = {
+            'VERIFY PENDING': 'text-admin-red',
+            'PAYMENT VERIFIED': 'text-admin-gold',
+            'IN WORKSHOP': 'text-blue-400',
+            'SHIPPED': 'text-orange-400',
+            'DELIVERED': 'text-green-500'
+        };
+
+        // DOM ELEMENTS
+        const authView = document.getElementById('auth-view');
+        const dashboardView = document.getElementById('dashboard-view');
+        const ordersContainer = document.getElementById('orders-container');
+        const emailInput = document.getElementById('admin-email');
+        const codeInput = document.getElementById('admin-code');
+
+        // LOGIN LOGIC
+        function handleLogin(e) {
+            e.preventDefault();
+            // For demonstration, accepts any input
+            if(emailInput.value && codeInput.value) {
+                authView.classList.add('hidden');
+                dashboardView.classList.remove('hidden');
+                dashboardView.classList.add('flex');
+                renderOrders();
+            }
+        }
+
+        function logout() {
+            dashboardView.classList.add('hidden');
+            dashboardView.classList.remove('flex');
+            authView.classList.remove('hidden');
+            emailInput.value = '';
+            codeInput.value = '';
+        }
+
+        // RENDER ORDERS
+        function renderOrders() {
+            ordersContainer.innerHTML = '';
+            
+            if(orders.length === 0) {
+                ordersContainer.innerHTML = `<p class="text-center text-gray-500 font-serif tracking-widest mt-12">No Active Orders</p>`;
+                return;
+            }
+
+            orders.forEach((order, index) => {
+                const statusColor = STATUS_COLORS[order.status] || 'text-gray-400';
+                
+                const card = document.createElement('div');
+                card.className = 'bg-admin-card border border-admin-border rounded-md p-5 flex flex-col gap-4 shadow-lg relative';
+                
+                card.innerHTML = `
+                    <!-- Header -->
+                    <div class="flex justify-between items-start border-b border-[#222] pb-4">
+                        <div>
+                            <span class="bg-[#222] text-admin-gold text-[10px] font-bold px-2 py-1 rounded-sm tracking-widest">${order.id}</span>
+                            <p class="text-xs text-gray-500 mt-2 tracking-wide">${order.date}</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xl font-medium text-white">₹${order.total}</span>
+                            <div class="flex items-center gap-1.5 justify-end mt-1 text-[10px] font-bold tracking-widest uppercase ${statusColor}">
+                                <div class="w-1.5 h-1.5 rounded-full bg-current"></div>
+                                ${order.status === 'VERIFY PENDING' ? 'VERIFICATION PENDING' : (order.status === 'PAYMENT VERIFIED' ? 'ORDER CONFIRMED' : order.status)}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Customer Details -->
+                    <div class="space-y-2 text-sm text-gray-400 mt-2">
+                        <div class="flex items-center gap-3"><i class="fa-regular fa-user text-admin-gold w-4"></i> <span class="text-white">${order.customer.name}</span></div>
+                        <div class="flex items-center gap-3"><i class="fa-regular fa-envelope text-admin-gold w-4"></i> <span>${order.customer.email}</span></div>
+                        <div class="flex items-center gap-3"><i class="fa-solid fa-phone text-admin-gold w-4"></i> <span>${order.customer.phone}</span></div>
+                        <div class="flex items-start gap-3"><i class="fa-solid fa-location-dot text-admin-gold w-4 mt-1"></i> <span class="leading-snug">${order.customer.address}</span></div>
+                    </div>
+
+                    <!-- UPI Tag -->
+                    <div>
+                        <span class="inline-flex items-center gap-1.5 bg-admin-purple border border-[#45276b] text-admin-purpleText text-[10px] font-bold px-2 py-1 rounded-sm tracking-widest">
+                            <i class="fa-solid fa-bolt"></i> UPI (${order.upiRef})
+                        </span>
+                    </div>
+
+                    <!-- Purchased Items -->
+                    <div class="mt-2">
+                        <p class="text-[10px] text-gray-500 tracking-[0.1em] uppercase mb-2">Purchased Items:</p>
+                        <div class="bg-[#151515] border border-[#222] rounded-sm p-3 space-y-2">
+                            ${order.items.map(item => `<p class="text-xs text-gray-300 font-medium">${item}</p>`).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Actions Panel -->
+                    <div class="flex flex-col sm:flex-row gap-3 mt-2 border-t border-[#222] pt-4">
+                        <div class="relative flex-1">
+                            <select id="status-${index}" class="w-full bg-[#151515] border border-[#333] text-gray-300 text-xs font-bold tracking-widest uppercase p-3 rounded-sm focus:outline-none focus:border-admin-gold cursor-pointer appearance-none">
+                                <option value="VERIFY PENDING" ${order.status === 'VERIFY PENDING' ? 'selected' : ''}>VERIFY PENDING</option>
+                                <option value="PAYMENT VERIFIED" ${order.status === 'PAYMENT VERIFIED' ? 'selected' : ''}>PAYMENT VERIFIED</option>
+                                <option value="IN WORKSHOP" ${order.status === 'IN WORKSHOP' ? 'selected' : ''}>IN WORKSHOP</option>
+                                <option value="SHIPPED" ${order.status === 'SHIPPED' ? 'selected' : ''}>SHIPPED</option>
+                                <option value="DELIVERED" ${order.status === 'DELIVERED' ? 'selected' : ''}>DELIVERED</option>
+                            </select>
+                            <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 text-xs select-arrow"></i>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="updateStatus(${index})" class="flex-1 sm:flex-none border border-[#333] text-admin-gold bg-[#151515] hover:border-admin-gold px-6 py-3 rounded-sm text-xs font-bold tracking-widest transition-colors">
+                                UPDATE
+                            </button>
+                            <button onclick="deleteOrder(${index})" class="border border-admin-red/30 text-admin-red bg-[#1a0f0f] hover:bg-admin-red hover:text-white px-4 py-3 rounded-sm transition-colors" title="Delete Order">
+                                <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                ordersContainer.appendChild(card);
+            });
+        }
+
+        // ACTIONS
+        window.updateStatus = function(index) {
+            const selectEl = document.getElementById(`status-${index}`);
+            const newStatus = selectEl.value;
+            orders[index].status = newStatus;
+            
+            // Brief highlight effect on update
+            selectEl.parentElement.parentElement.parentElement.classList.add('border-admin-gold');
+            setTimeout(() => {
+                selectEl.parentElement.parentElement.parentElement.classList.remove('border-admin-gold');
+                renderOrders(); // Re-render to update the colored dot
+            }, 500);
+        };
+
+        window.deleteOrder = function(index) {
+            if(confirm('Are you sure you want to permanently delete this order?')) {
+                orders.splice(index, 1);
+                renderOrders();
+            }
+        };
+
+    </script>
+</body>
+</html>
