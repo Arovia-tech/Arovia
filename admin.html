@@ -85,19 +85,19 @@
         </main>
     </div>
 
-    <!-- Firebase SDKs -->
+    <!-- Firebase SDKs with Full Uncut API Key -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, collection, onSnapshot, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyD6EiuBr54PEA0IIj5g6r6UqGi...",
+            apiKey: "AIzaSyD6EIuBr54PEA0IIj5g6r6UqGiWVOe3pXA",
             authDomain: "arovia-tech.firebaseapp.com",
             projectId: "arovia-tech",
             storageBucket: "arovia-tech.firebasestorage.app",
             messagingSenderId: "717183346666",
-            appId: "1:717183346666:web:e23d0570aa50e84e6f493",
+            appId: "1:717183346666:web:e23d0570aa508e84e6f493",
             measurementId: "G-0VRGEY8B85"
         };
 
@@ -156,6 +156,7 @@
 
         const STATUS_COLORS = {
             'VERIFY PENDING': 'text-admin-red',
+            'ORDER CONFIRMED (COD)': 'text-admin-gold',
             'PAYMENT VERIFIED': 'text-admin-gold',
             'IN WORKSHOP': 'text-blue-400',
             'SHIPPED': 'text-orange-400',
@@ -198,7 +199,7 @@
                     </div>
                     <div>
                         <span class="inline-flex items-center gap-1.5 bg-admin-purple border border-[#45276b] text-admin-purpleText text-[10px] font-bold px-2 py-1 rounded-sm tracking-widest">
-                            <i class="fa-solid fa-bolt"></i> UPI (${order.upiRef})
+                            <i class="fa-solid fa-bolt"></i> ${order.upiRef}
                         </span>
                     </div>
                     <div class="mt-2">
@@ -211,6 +212,7 @@
                         <div class="relative flex-1">
                             <select id="status-${index}" class="w-full bg-[#151515] border border-[#333] text-gray-300 text-xs font-bold tracking-widest uppercase p-3 rounded-sm focus:outline-none focus:border-admin-gold cursor-pointer appearance-none">
                                 <option value="VERIFY PENDING" ${order.status === 'VERIFY PENDING' ? 'selected' : ''}>VERIFY PENDING</option>
+                                <option value="ORDER CONFIRMED (COD)" ${order.status === 'ORDER CONFIRMED (COD)' ? 'selected' : ''}>ORDER CONFIRMED (COD)</option>
                                 <option value="PAYMENT VERIFIED" ${order.status === 'PAYMENT VERIFIED' ? 'selected' : ''}>PAYMENT VERIFIED</option>
                                 <option value="IN WORKSHOP" ${order.status === 'IN WORKSHOP' ? 'selected' : ''}>IN WORKSHOP</option>
                                 <option value="SHIPPED" ${order.status === 'SHIPPED' ? 'selected' : ''}>SHIPPED</option>
